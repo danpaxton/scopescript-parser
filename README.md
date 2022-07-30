@@ -365,7 +365,7 @@ Need all parts, <br>
 
 
 ## `return` statement
-Returns an expression from a function.<br>
+Returns an expression from a function call.<br>
 
 Syntax, <br>
 `return expression;`<br>
