@@ -118,18 +118,18 @@ Example,<br>
 Boolean values are represented using `true` or `false`.<br>
 
 Example,<br>
-`a = true`, true assignment<br>
-`if (false) { ... }`, conditional test
+`a = true`, true assignment.<br>
+`if (false) { ... }`, conditional test.
 
 
 ## Numbers
-Numbers are represented as integers, decimal point numbers, scientific notaion numbers, or infinity<br>
+Numbers are represented as integers, decimal point numbers, scientific notaion numbers, or infinity.<br>
 
 Example,<br>
-`1`, integer<br>
-`-3.66`, float<br>
-`2.67e-100`, scientific notation<br>
-`Infinity`, infinity<br>
+`1`, integer.<br>
+`-3.66`, float.<br>
+`2.67e-100`, scientific notation.<br>
+`Infinity`, infinity.<br>
 
 Decimal point numbers, scientific notation numbers, and infinity are all interpreted as float values.
 
@@ -138,9 +138,9 @@ Decimal point numbers, scientific notation numbers, and infinity are all interpr
 Strings are represented as a sequence of ascii characters between a matching pair of single or double quotes.<br>
 
 Example,<br>
-`''`, empty string<br>
-`' str1 '`, single quotes<br>
-`" str2 "`, double quotes<br>
+`''`, empty string.<br>
+`' str1 '`, single quotes.<br>
+`" str2 "`, double quotes.<br>
 
 Strings can be subscripted at character positions.<br>
 `'abc'[1]` is equivalent to `'b'`.
@@ -176,8 +176,8 @@ Error,<br>
 ### Comparison chaining
 Chaining comparsions will test each comparsion seperated by a logical AND (&&).<br>
 Example,<br>
-`1 < 2 < 3`, is equivalent to `1 < 2 && 2 < 3`<br>
-`1 == 2 < 3 != 4`, is equivalent to `1 == 2 && 2 < 3 && 3 != 4`<br>
+`1 < 2 < 3`, is equivalent to `1 < 2 && 2 < 3`.<br>
+`1 == 2 < 3 != 4`, is equivalent to `1 == 2 && 2 < 3 && 3 != 4`.<br>
 
 
 ## Built-in functions
@@ -261,13 +261,13 @@ Empty,<br>
 New attributes,<br>
 `data = {}; data['key'] = 1; data.number = 10;`<br>
 
-`data` is now equivalent to `{ 'key': 1, 'number': 10 }`<br>
+`data` is now equivalent to `{ 'key': 1, 'number': 10 }`.<br>
 
 Names,<br>
 `data = { a: 1, 2: true };`, is the same as `data = { 'a': 1, '2': true };`.<br>
 
 Numbers,<br>
-`data = { 1: 1, 2: true }`.<br> 
+`data = { 1: 1, 2: true }`<br> 
 
 Strings,<br>
 `data = { ' ': 1, 'key': true }`
@@ -368,7 +368,7 @@ Example,<br>
 No `return` statement or `return;`, are both equivalent to `return null;`.<br>
 
 ## `delete` statement
-Removes an attribute from a collection<br>
+Removes an attribute from a collection.<br>
 
 Syntax,<br>
 `delete expression;`<br>
@@ -378,4 +378,4 @@ Example,<br>
 `delete a[1];`<br>
 `delete a.a;`<br>
 
-Collection `a` is now equivalent to `{}`.
+`a` is now equivalent to `{}`.
