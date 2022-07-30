@@ -19,14 +19,14 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danpaxton/simple-script-parser.git"
+    "url": "git+https://github.com/danpaxton/scope-script-parser.git"
   },
   "keywords": [
     "Javascript",
     "Parsimmon"
   ],
   "bugs": {
-    "url": "https://github.com/danpaxton/simple-script-parser/issues"
+    "url": "https://github.com/danpaxton/scope-script-parser/issues"
   },
-  "homepage": "https://github.com/danpaxton/simple-script-parser#readme"
+  "homepage": "https://github.com/danpaxton/scope-script-parser#readme"
 }
