@@ -127,8 +127,11 @@ Numbers are represented as integers, decimal point numbers, scientific notaion n
 
 Example,<br>
 `1`, integer.<br>
-`-3.66`, float.<br>
+
+`-3.66`, decimal point.<br>
+
 `2.67e-100`, scientific notation.<br>
+
 `Infinity`, infinity.<br>
 
 Decimal point numbers, scientific notation numbers, and infinity are all interpreted as float values.
@@ -139,7 +142,9 @@ Strings are represented as a sequence of ascii characters between a matching pai
 
 Example,<br>
 `''`, empty string.<br>
+
 `' str1 '`, single quotes.<br>
+
 `" str2 "`, double quotes.<br>
 
 Strings can be subscripted at character positions.<br>
@@ -167,16 +172,17 @@ Example,<br>
 Bitwise Operators only operate on integers.<br>
 
 Example,<br>
-`~5`<br>
-`1 >> 2`<br>
+`~5`, `1 >> 2`<br>
 
 Error,<br>
 `1.5 >> 2.5`<br>
 
 ### Comparison chaining
 Chaining comparsions will test each comparsion seperated by a logical AND (&&).<br>
+
 Example,<br>
 `1 < 2 < 3`, is equivalent to `1 < 2 && 2 < 3`.<br>
+
 `1 == 2 < 3 != 4`, is equivalent to `1 == 2 && 2 < 3 && 3 != 4`.<br>
 
 
@@ -341,12 +347,14 @@ Initializers must be assignments and update variables must be defined.<br>
 
 Example,<br>
 `for(i = 0; i < 10; ++i) 2 + i;`<br>
+
 `for(i = 0, j = z = 1; i < 10; ++i, ++z, --j) { z += j; j += i}`<br>
 
 Errors,<br>
 
 Need all parts, <br>
 `for(i = 0; true; ) { 2 + i; }`<br>
+
 `for(; true; ++i) { 2 + i; }`<br>
 
 `z` not defined, <br>
