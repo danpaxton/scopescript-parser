@@ -74,7 +74,7 @@ Below is a set of instructions that define valid statements and expressions for 
 `| { kind: 'string', value: string }`<br>
 `| { kind: 'collection', value: { [ key: string ]: [ value: expression ] } }`<br>
 `| { kind: 'variable', name: name }`<br>
-`| { kind: 'closure', params: name[], body: Stmt[], env: State }`<br>
+`| { kind: 'closure', params: name[], body: Stmt[] }`<br>
 
 ### Expressions
 `type expression ::= atom`<br>
@@ -93,11 +93,6 @@ Below is a set of instructions that define valid statements and expressions for 
 `| { kind: 'while', test: expression, body: statement[]] }`<br>
 `| { kind: 'delete', expr: expression }`<br>
 `| { kind: 'return', expr: expression }`<br>
-
-### Abstract
-`type State ::= { [key: name]: atom }`<br>
-
-`type Program ::= { kind : 'ok', value : statement[] } | { kind : 'error', message : string }`    
 
 ## Comments
 Comments are specified using the `//` characters.<br>
