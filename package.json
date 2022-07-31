@@ -27,5 +27,6 @@
   "bugs": {
     "url": "https://github.com/danpaxton/scope-script-parser/issues"
   },
-  "homepage": "https://github.com/danpaxton/scope-script-parser#readme"
+  "homepage": "https://github.com/danpaxton/scope-script-parser#readme",
+  "devDependencies": {}
 }
