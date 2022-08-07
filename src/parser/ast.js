@@ -94,3 +94,11 @@ const delete_ =  expr => {
     return { kind: 'delete',  expr };
 }
 exports.delete_ = delete_
+const break_ = line => {
+    return { kind: 'break',  line };
+}
+exports.break_ = break_
+const continue_ = line => {
+    return { kind: 'continue',  line };
+}
+exports.continue_ = continue_

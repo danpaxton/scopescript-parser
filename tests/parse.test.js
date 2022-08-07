@@ -250,6 +250,22 @@ test('return parenthese', () => {
     ]);
 });
 
+test('break', () => {
+    let r = parseProgram(' break;');
+    expect(r.kind).toBe('ok');
+    expect(r.unsafeGet()).toEqual([
+        a.break_(1)
+    ]);
+})
+
+test('continue', () => {
+    let r = parseProgram('continue ;');
+    expect(r.kind).toBe('ok');
+    expect(r.unsafeGet()).toEqual([
+        a.continue_(1)
+    ]);
+})
+
 test('static', () => {
     let r = parseProgram('1 + 2;');
     expect(r.kind).toBe('ok');

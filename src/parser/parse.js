@@ -119,12 +119,12 @@ const none = lineNum.chain(line => P.string('null').desc('null').skip(ws).map(_ 
 
 // Parser that matches a identifier character (upper or lower case) 0 or more times.
 const name = P.regexp(/[a-zA-Z_$][a-zA-Z_$0-9]*/).assert(name => 
-    ['if', 'else if','else','for', 'while', 'return', 'delete', 'null']
+    ['if', 'else if', 'else', 'for', 'while', 'return', 'break', 'continue', 'delete', 'null']
     .reduce((acc, e) => acc && name !== e, true)).desc('identifier').skip(ws);
 
 // Parser that matches a closure and then maps parameters, and body to a an ast closure.
-const closure = P.lazy(() => lineNum.chain(line => P.seq(name.sepBy(operator(',')).wrap(operator('('), operator(')'))
-    .or(P.seq(name)).skip(operator('=>')), returnLine.or(blockMany)).desc('closure').map(arr => a.closure(arr[0], arr[1], line))))
+const closure = P.lazy(() => lineNum.chain(line => name.sepBy(operator(',')).wrap(operator('('), operator(')'))
+    .or(P.seq(name)).skip(operator('=>')).chain(params => returnLine.or(blockMany).map(block => a.closure(params, block, line)))))
 
 // Parser that mathces a collection and maps all key value pairs to an ast collection.
 const collection = P.lazy(() => lineNum.chain(line => 
@@ -267,13 +267,21 @@ const returnStmt = ws.then(P.string('return')).then(ws1.then(expr).or(expr.wrap(
 
 //deleteStmt: AST Delete
 const deleteStmt = ws.then(P.string('delete')).then(ws1.then(expr).or(expr.wrap(operator('('), operator(')')))).skip(semiColon1).map(expr => a.delete_(expr));
- 
+
+//breakStmt: AST Break
+const breakStmt = lineNum.chain(line => token('break').skip(semiColon1).map(_ => a.break_(line)));
+
+//continueStmt: AST Continue
+const continueStmt = lineNum.chain(line => token('continue').skip(semiColon1).map(_ => a.continue_(line)));
+
 // stmt: Parser
 const stmt = P.lazy(() => ifStmt
     .or(forStmt)
     .or(whileStmt)
     .or(returnStmt)
     .or(deleteStmt)
+    .or(breakStmt)
+    .or(continueStmt)
     .or(staticExprStmt(semiColon1))
     .or(assignmentStmt(semiColon1)));
 

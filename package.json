@@ -1,13 +1,13 @@
 {
   "name": "scope-script-parser",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A text parser for the scope script language, parses text into an abstract syntax tree represented in JSON.",
   "main": "src/parser/index.js",
   "scripts": {
     "test": "jest"
   },
   "dependencies": {
-    "immutable": "^4.0.0-rc.12",
+    "immutable": "^4.1.0",
     "jest": "^27.5.1",
     "parsimmon": "^1.12.0"
   },

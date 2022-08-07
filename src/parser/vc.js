@@ -7,11 +7,17 @@ const a = require("./ast");
 
 // getDuplicate<T>(a: T[]): T | undefined
 const getDuplicate = a => {
-    a.sort();
-    for(let i = 0; i < a. length - 1; ++i) {
-        if (a[i] === a[i + 1]) { return  a[i]; }
+    const set = new Set();
+    let i, c;
+    for(i = 0; i < a.length; ++i) {
+        c = a[i];
+        if (set.has(c))
+            return c
+        
+        set.add(c);
     }
-    return undefined;
+    
+    return undefined
 }
 
 const builtInFuncs = ['type', 'ord', 'abs', 'bool', 'str', 'len', 'int', 'print', 'float']
@@ -20,9 +26,9 @@ const builtInFuncs = ['type', 'ord', 'abs', 'bool', 'str', 'len', 'int', 'print'
 const addNames = (arr, vars) => arr.reduce((acc, e) => typeof(e) === 'string' ? acc.add(e) : (e.kind === 'identifier' ? acc.add(e.name) : acc), vars);
 
 
-// vcExpr(boundVars: Set, expr: Expr): OK | Error | Unreachable
-function vcExpr(boundVars, expr) {
-    switch(expr.kind) {
+// vcExpr(boundVars: Set, expression: Expr): OK | Error | Unreachable
+function vcExpr(boundVars, expression) {
+    switch(expression.kind) {
         case 'integer': // fall
         case 'float': //...
         case 'boolean': // ...
@@ -31,77 +37,77 @@ function vcExpr(boundVars, expr) {
             return result_1.ok(undefined);
         }
         case 'call': {
-            const x = expr.fun
+            const x = expression.fun
             if (x.kind === 'variable') {
                 if (boundVars.contains(x.name) || builtInFuncs.some(e => e === x.name)) {
-                    return result_1.foldLeft(vcExpr, boundVars, expr.args);
+                    return result_1.foldLeftNoAcc(vcExpr, boundVars, expression.args);
                 } else {
-                    return result_1.error(`Line ${expr.line}: function ${x.name}(...) is not defined.`)
+                    return result_1.error(`Line ${expression.line}: function ${x.name}(...) is not defined.`)
                 }
             }
             return vcExpr(boundVars, x)
-                        .then(_ => result_1.foldLeft(vcExpr, boundVars, expr.args));
+                        .then(_ => result_1.foldLeftNoAcc(vcExpr, boundVars, expression.args));
         }
         case 'attribute': {
-            const x = expr.collection;
+            const x = expression.collection;
             if (x.kind === 'variable') {
                 if (boundVars.contains(x.name)) {
                     return result_1.ok(boundVars);
                 }
                 else if(builtInFuncs.some(e => e === x.name)) {
-                    return result_1.error(`Line ${expr.line}: built-in funtion ${x.name}(...) cannot be referenced.`); 
+                    return result_1.error(`Line ${expression.line}: built-in funtion ${x.name}(...) cannot be referenced.`); 
                 } else {
-                    return result_1.error(`Line ${expr.line}: collection '${x.name}' is not defined.`);                
+                    return result_1.error(`Line ${expression.line}: collection '${x.name}' is not defined.`);                
                 }
             }
             return vcExpr(boundVars, x)
         }
         case 'subscriptor': {
-            const x = expr.collection;
+            const x = expression.collection;
             if (x.kind === 'variable') {
                 if (boundVars.contains(x.name)) {
-                    return vcExpr(boundVars, expr.expr);
+                    return vcExpr(boundVars, expression.expr);
                 }
                 else if(builtInFuncs.some(e => e === x.name)) {
-                    return result_1.error(`Line ${expr.line}: built-in funtion ${x.name}(...) is not subscriptable.`) 
+                    return result_1.error(`Line ${expression.line}: built-in funtion ${x.name}(...) is not subscriptable.`) 
                 }
                 else {
-                    return result_1.error(`Line ${expr.line}: collection '${x.name}' is not defined.`);                
+                    return result_1.error(`Line ${expression.line}: collection '${x.name}' is not defined.`);                
                 }
             }
             return vcExpr(boundVars, x)
-                .then(_ => vcExpr(boundVars, expr.expr))
+                .then(_ => vcExpr(boundVars, expression.expr))
         }
         case 'closure': {
-            const x = getDuplicate(expr.params);
+            const x = getDuplicate(expression.params);
             if (x !== undefined) {
-                return result_1.error(`Line ${expr.line}: duplicate closure parameter '${x}'.`);
+                return result_1.error(`Line ${expression.line}: duplicate closure parameter '${x}'.`);
             } else {
-                return vcBlock(addNames(expr.params, boundVars), expr.body);
+                return vcBlock(addNames(expression.params, boundVars), expression.body);
             }
         }
         case 'variable': {
-            const x = expr.name
+            const x = expression.name
             if (boundVars.contains(x)) {
                 return result_1.ok(boundVars);
             } else {
-                return result_1.error(`Line ${expr.line}: variable '${x}' is not defined.`);
+                return result_1.error(`Line ${expression.line}: variable '${x}' is not defined.`);
             }
         }
         case 'unop': {
-            return vcExpr(boundVars, expr.expr);
+            return vcExpr(boundVars, expression.expr);
         }
         case 'binop': {
-            return vcExpr(boundVars, expr.e1)
-                .then(_ => vcExpr(boundVars, expr.e2));
+            return vcExpr(boundVars, expression.e1)
+                .then(_ => vcExpr(boundVars, expression.e2));
         }
         case 'ternary': {
-            return vcExpr(boundVars, expr.test)
-                .then(_ => vcExpr(boundVars, expr.trueExpr))
-                .then(_ => vcExpr(boundVars, expr.falseExpr))
+            return vcExpr(boundVars, expression.test)
+                .then(_ => vcExpr(boundVars, expression.trueExpr))
+                .then(_ => vcExpr(boundVars, expression.falseExpr))
         }
         case 'collection': {
-            return result_1.foldLeft(vcStmt, boundVars, Object.entries(expr.value).map(pair => a.assignment([pair[0]], pair[1])));
+            return result_1.foldLeft(vcStmt, boundVars, Object.entries(expression.value).map(pair => a.assignment([pair[0]], pair[1])));
         }
         default: {
             return result_1.unreachable('unhandled case');
@@ -172,6 +178,10 @@ function vcStmt(env, stmt) {
         case 'static': {
             return vcExpr(env, stmt.expr)
                 .map(_ => env);
+        }
+        case 'break': // fall through
+        case 'continue': {
+            return result_1.ok(undefined).map(_ => env);
         }
         default: {
             return result_1.unreachable('unhandled case');
