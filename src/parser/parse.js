@@ -152,7 +152,7 @@ const call_attr_sub = P.lazy(() => lineNum.chain(line => atom.chain(lhs =>
                 } else {
                     return a.subscriptor(acc, currVal.subscriptor, line);
                 }
-            }, lhs)))))    
+            }, lhs))))) 
 
 // unary: AST Unop
 const unary = unopMatch(['!', '~','++', '--', '+', '-'], call_attr_sub);

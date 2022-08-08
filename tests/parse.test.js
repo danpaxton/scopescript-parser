@@ -406,11 +406,11 @@ test('null declaration', () => {
 })
 
 test('arithmetic and bitwise precedence', () => {
-    let r = parseProgram('x = 1 << 2 * 3 ** 2 + 3 & 4 / 2 - 1 >> 3 | 3 % 2 ** 2 ^ 4;');
+    let r = parseProgram('x = 1 << 2 * 3 + 3 & 4 / 2 - 1 >> 3 | 3 % 2 ^ 4;');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('x', 1)], a.binop('^', a.binop('|', a.binop('&', a.binop('<<', a.integer('1', 1), a.binop('+', a.binop('*', a.integer('2', 1), a.binop('**', a.integer('3', 1), a.integer('2', 1), 1), 1), a.integer('3', 1), 1), 1)
-        , a.binop('>>', a.binop('-', a.binop('/', a.integer('4', 1), a.integer('2', 1), 1), a.integer('1', 1), 1), a.integer('3', 1), 1), 1), a.binop('%', a.integer('3', 1), a.binop('**', a.integer('2', 1), a.integer('2', 1), 1), 1), 1), a.integer('4', 1), 1))
+        a.assignment([a.identifier('x', 1)], a.binop('^', a.binop('|', a.binop('&', a.binop('<<', a.integer('1', 1), a.binop('+', a.binop('*', a.integer('2', 1), a.integer('3', 1), 1), a.integer('3', 1), 1), 1)
+        , a.binop('>>', a.binop('-', a.binop('/', a.integer('4', 1), a.integer('2', 1), 1), a.integer('1', 1), 1), a.integer('3', 1), 1), 1), a.binop('%', a.integer('3', 1), a.integer('2', 1), 1), 1), a.integer('4', 1), 1))
     ]);
 });
 
@@ -444,14 +444,6 @@ test('subtraction binding', () => {
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
         a.assignment([a.identifier('x', 1)], a.binop('-', a.binop('-', a.integer('1', 1), a.integer('2', 1), 1), a.integer('3', 1), 1))
-    ]);
-});
-
-test('exponential chain', () => {
-    let r = parseProgram('x = 2 ** 2 ** 2 ** 2;');
-    expect(r.kind).toBe('ok');
-    expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('x', 1)], a.binop('**', a.integer('2', 1), a.binop('**', a.integer('2', 1), a.binop('**', a.integer('2', 1), a.integer('2', 1), 1), 1), 1))
     ]);
 });
 
@@ -495,18 +487,10 @@ test('left associative call', () => {
 
 
 test('left associative unary', () => {
-    let r = parseProgram('x = 2 ** ~2;')
+    let r = parseProgram('x = 2 * ~2;')
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('x', 1)], a.binop('**', a.integer('2', 1), a.unop('~', a.integer('2', 1), 1), 1))
-    ]);
-});
-
-test('Right associative exponential', () => {
-    let r = parseProgram('x = 3 * 2 ** 2;')
-    expect(r.kind).toBe('ok');
-    expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('x', 1)], a.binop('*', a.integer('3', 1), a.binop('**', a.integer('2', 1), a.integer('2', 1), 1), 1))
+        a.assignment([a.identifier('x', 1)], a.binop('*', a.integer('2', 1), a.unop('~', a.integer('2', 1), 1), 1))
     ]);
 });
 
@@ -618,12 +602,12 @@ test('nested ternary needs parentheses', () => {
 
 
 test('Left associative complicated', () => {
-    let r = parseProgram('foo = x => x; x = foo(2) == 3 || (2 - 1 * 2 ** ~2 > 2);');
+    let r = parseProgram('foo = x => x; x = foo(2) == 3 || (2 - 1 * ~2 > 2);');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
         a.assignment([a.identifier('foo', 1)], a.closure(['x'], [a.return_(a.variable('x', 1))], 1))
         , a.assignment([a.identifier('x', 1)], a.binop('||', a.binop('==', a.call(a.variable('foo', 1), [a.integer('2', 1)], 1)
-        , a.integer('3', 1), 1), a.binop('>', a.binop('-', a.integer('2', 1), a.binop('*', a.integer('1', 1), a.binop('**', a.integer('2', 1), a.unop('~', a.integer('2', 1), 1), 1), 1), 1), a.integer('2', 1), 1), 1))
+        , a.integer('3', 1), 1), a.binop('>', a.binop('-', a.integer('2', 1), a.binop('*', a.integer('1', 1), a.unop('~', a.integer('2', 1), 1), 1), 1), a.integer('2', 1), 1), 1))
     ]);
 });
 

@@ -26,13 +26,12 @@ $ npm i scope-script-parser
 ```
 
 ## Operator Precedence
-The table below summarizes operator precedence from highest precedence to lowest precedence. Operators in the same box have the same precedence. Operators without syntax are binary. All operators group left to right except exponentiation which groups right to left.
+The table below summarizes operator precedence from highest precedence to lowest precedence. Operators in the same box have the same precedence. Operators without syntax are binary. All operators group left to right.
 Operator| Description
 ---:| ---
 `(expression),`<br>`{key: value...}` | Binding or parenthesized expression,<br> collection display
  `x(...), x.attribute, x[...]` | call, reference, subscriptor
  `!x, ~x, ++x, --x, +x, -x`| logical not, bitwise not, pre-increment, pre-decrement, unary plus, unary negative
- `**` | exponentiation
 `*, /, %` | multiplication, division, remainder
 `+, -`| addition, subtraction
 `<<, >>`| shifts
@@ -164,7 +163,7 @@ Syntax,<br>
 `expression binop expression`<br>
 
 Example,<br>
-`2 ** 8`, `true && false`, `a == b`<br>
+`2 * 8`, `true && false`, `a == b`<br>
 
 ### Bitwise Operators
 Bitwise Operators only operate on integers.<br>
@@ -193,7 +192,7 @@ Built in functions with default return values unless overwritten.<br>
 
 `abs(..)`, returns the absolute value of number argument.<br>
 
-`pow(..)`, returns the first argument to the power of the second argument..<br>
+`pow(..)`, returns the first argument to the power of the second argument.<br>
 
 `len(..)`, returns the length of the collection or string argument.<br>
 
@@ -223,7 +222,7 @@ Assign multiple variables, or attributes the same value using an assignment chai
 `a = b['key'] = c.val = 1;`<br>
 
 ### Compound assignment
-`'+=' | '-=' | '*=' | '//=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | '|='`<br>
+`'+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | '|='`<br>
 
 A variable must be defined before compound assignment.<br>
 
@@ -289,7 +288,7 @@ using `data[' ']` and attribute `key` using `data.key` or `data['key']`.<br>
 Conditionally make decisions on the expression level. Defined by a test with a true expression and a false expression.<br>
 
 Syntax,<br>
-`a = test ? (true) expression : (false) expression;`
+`a = test ? true expression : false expression;`
 
 Ternary expressions can only contain expressions, use if statements for statement level conditionals.<br>
 
@@ -404,5 +403,5 @@ Syntax,<br>
 `break;`
 
 Example,<br>
-`while(true) { break; }`<br>
-The loop will only run once because it breaks immediately.
+`while(true) { break; print(1);}`<br>
+The loop will only run once and nothing will be printed because it breaks immediately.
