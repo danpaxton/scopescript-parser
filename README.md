@@ -401,7 +401,7 @@ The loop will run ten times because `a` is never decremented.
 Explicitly step out of loop iteration.<br>
 
 Syntax,<br>
-`continue;`
+`break;`
 
 Example,<br>
 `while(true) { break; }`<br>
