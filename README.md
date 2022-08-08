@@ -92,6 +92,8 @@ Below is a set of instructions that define valid statements and expressions for 
 `| { kind: 'while', test: expression, body: statement[]] }`<br>
 `| { kind: 'delete', expr: expression }`<br>
 `| { kind: 'return', expr: expression }`<br>
+`| { kind: 'break' }`<br>
+`| { kind: 'continue' }`<br>
 
 ### Program
 `type program ::= { kind: 'ok', value: statement[] } | {kind: 'error', message: string }`
@@ -405,3 +407,6 @@ Syntax,<br>
 Example,<br>
 `while(true) { break; print(1);}`<br>
 The loop will only run once and nothing will be printed because it breaks immediately.
+
+## Additional language information
+https://github.com/danpaxton/scope-script-interpreter
