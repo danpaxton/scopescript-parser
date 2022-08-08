@@ -20,7 +20,7 @@ const getDuplicate = a => {
     return undefined
 }
 
-const builtInFuncs = ['type', 'ord', 'abs', 'bool', 'str', 'len', 'int', 'print', 'float']
+const builtInFuncs = ['type', 'ord', 'abs', 'bool', 'str', 'len', 'int', 'print', 'float', 'pow']
 
 // addNames(arr: String[], vars: Set): Set
 const addNames = (arr, vars) => arr.reduce((acc, e) => typeof(e) === 'string' ? acc.add(e) : (e.kind === 'identifier' ? acc.add(e.name) : acc), vars);

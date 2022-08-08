@@ -5,7 +5,7 @@ View language IDE: https://github.com/danpaxton/scope-script-ide<br>
 
 
 ## Parser
-Given code as raw text, the parser converts it into an abstract syntax tree defined by an operator precedence and a set of grammar rules. The parser was built using the Parsimmon libray. Text is parsed left to right in top down manner. The parser is built from larger parse functions built out of smaller parse functions. Specifically, the parser starts out parsing using simple regular expression parsers. Then, parses expressions using these regex parsers. Then, parses statements using expression parsers. Lastly, parses programs using statements parsers. Operator precedence is handled by building lower precedence operator parsers that use the next highest precedence operator parser as their main parse function. This allows the parser to bind to higher precedence operators before lower precedence operators. The variable checker is used to find cases of undeclared variables, duplicate parameters, valid statment use and invalid built-in function use. It accomplishes this by traversing the abstract syntax tree and maintaining a set of bound variables at each level of the program.
+Given code as raw text, the parser converts it into an abstract syntax tree defined by an operator precedence and a set of grammar rules. The parser was built using the Parsimmon libray. Text is parsed left to right in top down manner. The parser is built from larger parse functions built out of smaller parse functions. Specifically, the parser starts by parsing text using simple regular expression parsers. Then, parses expressions using these regex parsers. Then, parses statements using expression parsers. Lastly, parses programs using statements parsers. Operator precedence is handled by building lower precedence operator parsers that use the next highest precedence operator parser as their main parse function. This allows the parser to bind to higher precedence operators before lower precedence operators. The variable checker is used to find cases of undeclared variables, duplicate parameters, valid statment use and invalid built-in function use. It accomplishes this by traversing the abstract syntax tree and maintaining a set of bound variables at each level of the program.
 
 
 ## Installation
@@ -64,7 +64,7 @@ Below is a set of instructions that define valid statements and expressions for 
 ### Operators
 `type unop ::= !, ~, ++, --, +, -`<br>
 
-`type binop ::= *, /, %, **, +, -, <<, >>, |, &, |, ^, >=, <=, ==, !=, >, <, &&, ||`<br>
+`type binop ::= *, /, %, +, -, <<, >>, |, &, |, ^, >=, <=, ==, !=, >, <, &&, ||`<br>
 
 ### Atoms
 `type atom ::= { kind: 'null' }`<br>
@@ -93,6 +93,9 @@ Below is a set of instructions that define valid statements and expressions for 
 `| { kind: 'while', test: expression, body: statement[]] }`<br>
 `| { kind: 'delete', expr: expression }`<br>
 `| { kind: 'return', expr: expression }`<br>
+
+### Program
+`type program ::= { kind: 'ok', value: statement[] } | {kind: 'error', message: string }`
 
 ## Comments
 Comments are specified using the `//` characters.<br>
@@ -190,7 +193,9 @@ Built in functions with default return values unless overwritten.<br>
 
 `abs(..)`, returns the absolute value of number argument.<br>
 
-`len(..)`, returns the length of collection or string argument.<br>
+`pow(..)`, returns the first argument to the power of the second argument..<br>
+
+`len(..)`, returns the length of the collection or string argument.<br>
 
 `bool(..)`, returns the boolean representation of the argument.<br>
 
@@ -382,3 +387,23 @@ Example,<br>
 `delete a.a;`<br>
 
 `a` is now equivalent to `{}`.
+
+## `continue` statement
+Explicitly jump to next loop iteration.<br>
+
+Syntax,<br>
+`continue;`
+
+Example,<br>
+`for(a = 0; a < 10; ++a) { continue; --a; }`
+The loop will run ten times because `a` is never decremented.
+
+## `break` statement
+Explicitly step out of loop iteration.<br>
+
+Syntax,<br>
+`continue;`
+
+Example,<br>
+`while(true) { break; }`
+The loop will only run once because it breaks immediately.

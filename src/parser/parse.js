@@ -65,14 +65,6 @@ const binopMatch = (ops, otherParser) => {
 const unopMatch = (ops, otherParser) => map((line, op, expr) => a.unop(getOp(op, ops), expr, line), parseOp(ops), otherParser);
 
 
-// expMatch(otherParser: Parser<Expr>): AST Binop
-const expMatch = (otherParser) => {
-    // expMap(expSequences: Number[], rhs: Expr): AST Binop
-    const expMap = (line, expSequences, rhs) => expSequences.reduceRight((acc, currVal) => a.binop('**', currVal, acc, line), rhs, line);
-    return map(expMap, otherParser.skip(operator('**')).many(), otherParser);
-}
-
-
 // cmpMatch(ops: String[], otherParser: Parser<Expr>): AST Binop
 const cmpMatch = (ops, otherParser) => {
     // getOp(lhs: Expr, cmpSequences: [[op: String, rhs: Expr], [...]]): AST Binop
@@ -165,11 +157,8 @@ const call_attr_sub = P.lazy(() => lineNum.chain(line => atom.chain(lhs =>
 // unary: AST Unop
 const unary = unopMatch(['!', '~','++', '--', '+', '-'], call_attr_sub);
 
-// exp: AST Binop
-const exp = expMatch(call_attr_sub.or(unary));
-
 // mul: AST Binop
-const mul = binopMatch(['*', '/', '%'], exp);
+const mul = binopMatch(['*', '/', '%'], call_attr_sub.or(unary));
 
 // add: AST Binop
 const add = binopMatch(['+', '-'], mul);
@@ -303,7 +292,7 @@ const parseProgram = input => {
         const stmts = result.value;
         return vc.vc(stmts).map(_ => stmts);
     } else {
-        return error(`Line ${result.index.line}: Parse error. Unexpected token`);
+        return error(`Line ${result.index.line}: Parse error. Unexpected token.`);
     }
 }
 exports.parseProgram = parseProgram;
