@@ -385,7 +385,6 @@ Example,<br>
 `a = { 1 : true, a : true };`<br>
 `delete a[1];`<br>
 `delete a.a;`<br>
-
 `a` is now equivalent to `{}`.
 
 ## `continue` statement
@@ -395,7 +394,7 @@ Syntax,<br>
 `continue;`
 
 Example,<br>
-`for(a = 0; a < 10; ++a) { continue; --a; }`
+`for(a = 0; a < 10; ++a) { continue; --a; }`<br>
 The loop will run ten times because `a` is never decremented.
 
 ## `break` statement
@@ -405,5 +404,5 @@ Syntax,<br>
 `continue;`
 
 Example,<br>
-`while(true) { break; }`
+`while(true) { break; }`<br>
 The loop will only run once because it breaks immediately.
