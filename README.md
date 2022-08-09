@@ -112,6 +112,10 @@ The absence of a value is specified using the `null` keyword.<br>
 Example,<br>
 `a = null;`
 
+Uknown attribute reuturns null.<br>
+Given `a = {}`, <br>
+`a[1] == null` is equivalent to `True`.<br>
+
 
 ## Boolean
 Boolean values are represented using `true` or `false`.<br>
@@ -120,9 +124,15 @@ Example,<br>
 `a = true`, true assignment.<br>
 `if (false) { ... }`, conditional test.
 
+Boolean is a subset of integer.<br>
+`1 + true` is equivalent to `2`.
+`0 + false` is equivalent to `0`.
+
 
 ## Numbers
-Numbers are represented as integers, decimal point numbers, scientific notaion numbers, or infinity.<br>
+Numbers are represented as integers, or floats.<br>
+
+Decimal point numbers, scientific notation numbers, and infinity are all interpreted as float values. 
 
 Example,<br>
 `1`, integer.<br>
@@ -132,8 +142,6 @@ Example,<br>
 `2.67e-100`, scientific notation.<br>
 
 `Infinity`, infinity.<br>
-
-Decimal point numbers, scientific notation numbers, and infinity are all interpreted as float values.
 
 
 ## Strings
