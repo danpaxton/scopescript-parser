@@ -1,7 +1,7 @@
-# Scope Script Parser
-View on npm: https://www.npmjs.com/package/scope-script-parser<br>
-View interpreter: https://github.com/danpaxton/scope-script-interpreter<br>
-View language IDE: https://github.com/danpaxton/scope-script-ide<br>
+# ScopeScript Parser
+View on npm: https://www.npmjs.com/package/scopescript-parser<br>
+View interpreter: https://github.com/danpaxton/scopescript-interpreter<br>
+View language IDE: https://github.com/danpaxton/scopescript-ide<br>
 
 
 ## Parser
@@ -11,8 +11,8 @@ Given code as raw text, the parser converts it into an abstract syntax tree defi
 ## Installation
 Clone repository,
 ```console
-$ git clone https://github.com/danpaxton/scope-script-parser.git`
-$ cd scope-script-parser
+$ git clone https://github.com/danpaxton/scopescript-parser.git`
+$ cd scopescript-parser
 ```
 Install and run tests,
 ```console
@@ -22,7 +22,7 @@ $ npm run test
 
 Or install package,
 ```console
-$ npm i scope-script-parser
+$ npm i scopescript-parser
 ```
 
 ## Operator Precedence
@@ -96,7 +96,7 @@ Below is a set of instructions that define valid statements and expressions for 
 `| { kind: 'continue' }`<br>
 
 ### Program
-`type program ::= { kind: 'ok', value: statement[] } | {kind: 'error', message: string }`
+`type program ::= { kind: 'ok', value: statement[] } | { kind: 'error', message: string }`
 
 ## Comments
 Comments are specified using the `//` characters.<br>
@@ -417,4 +417,4 @@ Example,<br>
 The loop will only run once and nothing will be printed because it breaks immediately.
 
 ## Additional language information
-https://github.com/danpaxton/scope-script-interpreter
+https://github.com/danpaxton/scopescript-interpreter

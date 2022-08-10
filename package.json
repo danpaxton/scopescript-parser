@@ -1,7 +1,7 @@
 {
-  "name": "scope-script-parser",
-  "version": "1.0.6",
-  "description": "A text parser for the scope script language, parses text into an abstract syntax tree represented in JSON.",
+  "name": "scopescript-parser",
+  "version": "1.0.0",
+  "description": "A text parser for the ScopeScript language, parses text into a syntax tree represented in JSON.",
   "main": "src/parser/index.js",
   "scripts": {
     "test": "jest"
@@ -18,15 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danpaxton/scope-script-parser.git"
+    "url": "git+https://github.com/danpaxton/scopescript-parser.git"
   },
   "keywords": [
     "Javascript",
     "Parsimmon"
   ],
   "bugs": {
-    "url": "https://github.com/danpaxton/scope-script-parser/issues"
+    "url": "https://github.com/danpaxton/scopescript-parser/issues"
   },
-  "homepage": "https://github.com/danpaxton/scope-script-parser#readme",
+  "homepage": "https://github.com/danpaxton/scopescript-parser#readme",
   "devDependencies": {}
 }
