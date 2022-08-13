@@ -107,7 +107,7 @@ function vcExpr(boundVars, expression) {
                 .then(_ => vcExpr(boundVars, expression.falseExpr))
         }
         case 'collection': {
-            return result_1.foldLeft(vcStmt, boundVars, Object.entries(expression.value).map(pair => a.assignment([pair[0]], pair[1])));
+            return result_1.foldLeftNoAcc(vcExpr, boundVars, Object.values(expression.value));
         }
         default: {
             return result_1.unreachable('unhandled case');

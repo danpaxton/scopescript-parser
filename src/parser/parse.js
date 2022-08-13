@@ -250,12 +250,12 @@ const ifStmt = P.lazy(() => P.seqObj(['test', token('if').then(expr.wrap(operato
 
 
 // returnStmt: AST Return
-const returnStmt = ws.then(P.string('return')).then(ws1.then(expr).or(expr.wrap(operator('('), operator(')'))).map(expression => a.return_(expression))
-    .or(lineNum.chain(line => ws.map(_ => a.return_(a.null_(line)))))).skip(semiColon1);
+const returnStmt = lineNum.chain(line => ws.then(P.string('return')).then(ws1.then(expr).or(expr.wrap(operator('('), operator(')'))).map(expression => a.return_(expression, line))
+    .or(ws.map(_ => a.return_(a.null_(line), line))))).skip(semiColon1);
 
 
 //deleteStmt: AST Delete
-const deleteStmt = ws.then(P.string('delete')).then(ws1.then(expr).or(expr.wrap(operator('('), operator(')')))).skip(semiColon1).map(expr => a.delete_(expr));
+const deleteStmt = lineNum.chain(line => ws.then(P.string('delete')).then(ws1.then(expr).or(expr.wrap(operator('('), operator(')')))).skip(semiColon1).map(expr => a.delete_(expr, line)));
 
 //breakStmt: AST Break
 const breakStmt = lineNum.chain(line => token('break').skip(semiColon1).map(_ => a.break_(line)));
@@ -282,7 +282,7 @@ const block = P.lazy(() => stmt.map(s => [s]).or(stmt.many().wrap(operator('{'),
 const blockMany = P.lazy(() => stmt.many().wrap(operator('{'), operator('}')));
 
 // returnLine: Stmt[]
-const returnLine = P.lazy(() => expr.map(expr => a.return_(expr)).map(ret => [ret]));
+const returnLine = P.lazy(() => lineNum.chain(line => expr.map(expr => a.return_(expr, line))).map(ret => [ret]));
 
 
 // parseProgram(input: String): Ok | Error

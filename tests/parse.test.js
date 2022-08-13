@@ -202,7 +202,7 @@ test('delete subscriptor', () => {
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
         a.assignment([a.identifier('a', 1)], a.integer('1', 1)),
-        a.delete_(a.subscriptor(a.variable('a', 1), a.integer('1', 1), 1))
+        a.delete_(a.subscriptor(a.variable('a', 1), a.integer('1', 1), 1), 1)
     ]);
 })
 
@@ -216,7 +216,7 @@ test('delete attribute', () => {
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
         a.assignment([a.identifier('a', 1)], a.integer('1', 1)),
-        a.delete_(a.attribute(a.variable('a', 1), 'a', 1))
+        a.delete_(a.attribute(a.variable('a', 1), 'a', 1), 1)
     ]);
 })
 
@@ -225,7 +225,7 @@ test('return', () => {
     let r = parseProgram('return 1 + 2;');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.return_(a.binop('+', a.integer('1', 1), a.integer('2', 1), 1))
+        a.return_(a.binop('+', a.integer('1', 1), a.integer('2', 1), 1), 1)
     ]);
 });
 
@@ -238,7 +238,7 @@ test('return null', () => {
     let r = parseProgram('return;');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.return_(a.null_(1))
+        a.return_(a.null_(1), 1)
     ]);
 });
 
@@ -246,7 +246,7 @@ test('return parenthese', () => {
     let r = parseProgram('return(1 + 2);');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.return_(a.binop('+', a.integer('1', 1), a.integer('2', 1), 1))
+        a.return_(a.binop('+', a.integer('1', 1), a.integer('2', 1), 1), 1)
     ]);
 });
 
@@ -480,7 +480,7 @@ test('left associative call', () => {
     let r = parseProgram('foo = x => x; x = -foo(1);')
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('foo', 1)], a.closure(['x'], [a.return_(a.variable('x', 1))], 1)),
+        a.assignment([a.identifier('foo', 1)], a.closure(['x'], [a.return_(a.variable('x', 1), 1)], 1)),
         a.assignment([a.identifier('x', 1)], a.unop('-', a.call(a.variable('foo', 1), [a.integer('1', 1)], 1), 1))
     ]);
 });
@@ -605,7 +605,7 @@ test('Left associative complicated', () => {
     let r = parseProgram('foo = x => x; x = foo(2) == 3 || (2 - 1 * ~2 > 2);');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('foo', 1)], a.closure(['x'], [a.return_(a.variable('x', 1))], 1))
+        a.assignment([a.identifier('foo', 1)], a.closure(['x'], [a.return_(a.variable('x', 1), 1)], 1))
         , a.assignment([a.identifier('x', 1)], a.binop('||', a.binop('==', a.call(a.variable('foo', 1), [a.integer('2', 1)], 1)
         , a.integer('3', 1), 1), a.binop('>', a.binop('-', a.integer('2', 1), a.binop('*', a.integer('1', 1), a.unop('~', a.integer('2', 1), 1), 1), 1), a.integer('2', 1), 1), 1))
     ]);
@@ -616,7 +616,7 @@ test('Closure definition with return line', () => {
     let r = parseProgram('foo = (a, b) => a + b;');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('foo', 1)], a.closure(['a', 'b'], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1))], 1))
+        a.assignment([a.identifier('foo', 1)], a.closure(['a', 'b'], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1), 1)], 1))
     ]);
 });
 
@@ -625,7 +625,7 @@ test('Closure definition with block', () => {
     let r = parseProgram('foo = (a, b) => { return a + b; };');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('foo', 1)], a.closure(['a', 'b'], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1))], 1))
+        a.assignment([a.identifier('foo', 1)], a.closure(['a', 'b'], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1), 1)], 1))
     ]);
 });
 
@@ -634,7 +634,7 @@ test('Nested Closure definition', () => {
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
         a.assignment([a.identifier('foo', 1)], a.closure(['a', 'b']
-        , [a.assignment([a.identifier('closure', 1)], a.closure([], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1))], 1)), a.return_(a.variable('closure', 1))], 1))
+        , [a.assignment([a.identifier('closure', 1)], a.closure([], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1), 1)], 1)), a.return_(a.variable('closure', 1), 1)], 1))
     ]);
 });
 
@@ -643,7 +643,7 @@ test('Closure in-line', () => {
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
         a.assignment([a.identifier('foo', 1)], a.closure(['a', 'b']
-        , [a.return_(a.closure([], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1))], 1))], 1))
+        , [a.return_(a.closure([], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1), 1)], 1), 1)], 1))
     ]);
 });
 
@@ -652,7 +652,7 @@ test('Function call', () => {
     let r = parseProgram('foo = (a, b) => a + b; foo(1, 2);');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('foo', 1)], a.closure(['a', 'b'], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1))], 1))
+        a.assignment([a.identifier('foo', 1)], a.closure(['a', 'b'], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1), 1)], 1))
         , a.static_(a.call(a.variable('foo', 1), [a.integer('1', 1), a.integer('2', 1)], 1))
     ]);
 });
@@ -662,7 +662,7 @@ test('Function call currying', () => {
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
         a.assignment([a.identifier('foo', 1)], a.closure(['a'], [a.return_(a.closure(['b'], [a.return_(a.closure(['c'], [a.return_(
-            a.binop('*', a.binop('*', a.variable('a', 1), a.variable('b', 1), 1), a.variable('c', 1), 1))], 1))], 1))], 1))
+            a.binop('*', a.binop('*', a.variable('a', 1), a.variable('b', 1), 1), a.variable('c', 1), 1), 1)], 1), 1)], 1), 1)], 1))
         , a.static_(a.call(a.call(a.call(a.variable('foo', 1), [a.integer('2', 1)], 1), [a.integer('4', 1)], 1), [a.integer('6', 1)], 1))
     ]);
 });
@@ -671,7 +671,7 @@ test('Function call recursive', () => {
     let r = parseProgram('foo = x => foo(x);');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('foo', 1)], a.closure(['x'], [a.return_(a.call(a.variable('foo', 1), [a.variable('x', 1)], 1))], 1))
+        a.assignment([a.identifier('foo', 1)], a.closure(['x'], [a.return_(a.call(a.variable('foo', 1), [a.variable('x', 1)], 1), 1)], 1))
     ]);
 });
 
@@ -687,7 +687,7 @@ test('Left associative function call', () => {
     let r = parseProgram('foo = x => x; x = 2 * -foo(3);');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('foo', 1)], a.closure(['x'], [a.return_(a.variable('x', 1))], 1))
+        a.assignment([a.identifier('foo', 1)], a.closure(['x'], [a.return_(a.variable('x', 1), 1)], 1))
         , a.assignment([a.identifier('x', 1)], a.binop('*', a.integer('2', 1), a.unop('-', a.call(a.variable('foo', 1), [a.integer('3', 1)], 1), 1), 1))
     ]);
 });
@@ -696,7 +696,7 @@ test('Function call in-place', () => {
     let r = parseProgram('x = ((a, b) => a + b)(1, 2);');
     expect(r.kind).toBe('ok');
     expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('x', 1)], a.call(a.closure(['a', 'b'], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1))], 1), [a.integer('1', 1), a.integer('2', 1)], 1))
+        a.assignment([a.identifier('x', 1)], a.call(a.closure(['a', 'b'], [a.return_(a.binop('+', a.variable('a', 1), a.variable('b', 1), 1), 1)], 1), [a.integer('1', 1), a.integer('2', 1)], 1))
     ]);
 });
 
@@ -775,12 +775,3 @@ test('collection in-place assignment', () => {
       a.assignment([a.attribute(a.collection({ 'x': a.integer('1', 1) }, 1), 'x', 1)], a.integer('23', 1))  
     ])
 });
-
-test('recursive collection attributes', () => {
-    let r = parseProgram('y = { x : () => x() };');
-    expect(r.kind).toBe('ok')
-    expect(r.unsafeGet()).toEqual([
-        a.assignment([a.identifier('y', 1)], a.collection({ 'x': a.closure([], [a.return_(a.call(a.variable('x', 1), [], 1))], 1)}, 1))
-    ])
-})
-

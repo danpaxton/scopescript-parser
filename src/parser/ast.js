@@ -86,19 +86,19 @@ const while_ = (test, body) => {
     return { kind: 'while', test, body };
 }
 exports.while_ = while_;
-const return_ =  expr => {
-    return { kind: 'return',  expr };
+const return_ =  (expr, line) => {
+    return { kind: 'return', expr, line };
 }
 exports.return_ = return_;
-const delete_ =  expr => {
-    return { kind: 'delete',  expr };
+const delete_ =  (expr, line) => {
+    return { kind: 'delete', expr, line };
 }
 exports.delete_ = delete_
 const break_ = line => {
-    return { kind: 'break',  line };
+    return { kind: 'break', line };
 }
 exports.break_ = break_
 const continue_ = line => {
-    return { kind: 'continue',  line };
+    return { kind: 'continue', line };
 }
 exports.continue_ = continue_
