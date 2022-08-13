@@ -128,8 +128,13 @@ function vcBlock(env, statements) {
 function vcStmt(env, stmt) {
     switch(stmt.kind) {
         case 'assignment': {
-            return vcExpr(stmt.expr.kind === 'closure' ? addNames(stmt.assignArr, env) : env, stmt.expr)
-                .map(_ => addNames(stmt.assignArr, env));
+            const k = stmt.expr.kind;
+            if (k === 'closure' || k === 'collection' ) {
+                const new_env = addNames(stmt.assignArr, env) 
+                return vcExpr(new_env, stmt.expr)
+                    .map(_ => new_env);
+            }
+            return vcExpr(env, stmt.expr).map(_ => addNames(stmt.assignArr, env));
         }
         case 'if': {
             return result_1.foldLeftNoAcc(vcExpr, env, stmt.truePartArr.map(s => s.test))

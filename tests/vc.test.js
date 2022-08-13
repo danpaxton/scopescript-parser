@@ -85,8 +85,3 @@ test('can use variable names as closure parameters', () => {
     let r = parseProgram('x = 1; y = x => x;');
     expect(r.kind).toBe('ok');
 });
-
-test('dict values must be defined', () => {
-    let r = parseProgram('a = { a: a };');
-    expect(r.kind).toBe('error')
-});
