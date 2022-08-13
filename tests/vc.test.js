@@ -85,3 +85,8 @@ test('can use variable names as closure parameters', () => {
     let r = parseProgram('x = 1; y = x => x;');
     expect(r.kind).toBe('ok');
 });
+
+test('closure attribute variables are defined', () => {
+    let r = parseProgram('a = { b: () => a };');
+    expect(r.kind).toBe('ok')
+});
