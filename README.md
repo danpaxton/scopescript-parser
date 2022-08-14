@@ -5,7 +5,7 @@ View language IDE: https://github.com/danpaxton/scopescript-ide<br>
 
 
 ## Parser
-Given code as raw text, the parser converts it into a syntax tree defined by an operator precedence and a set of grammar rules. Text is parsed left to right in top down manner. The parser is built from larger parse functions built out of smaller parse functions. Specifically, the parser starts by parsing text using simple regular expression parsers. Then, parses expressions using these regex parsers. Then, parses statements using expression parsers. Lastly, parses programs using statement parsers. Operator precedence is handled by building lower precedence operator parsers that use the next highest precedence operator parser as their main parse function. This allows the parser to bind to higher precedence operators before lower precedence operators. Using the [Immutable library](https://immutable-js.com/), the variable checker traverses the syntax tree and maintains a set of bound variables at each level of the program. The variable checker is used to find cases of undeclared variables, duplicate parameters, valid statment use and invalid built-in function use. The parser is built using the [Parsimmon library](https://www.npmjs.com/package/parsimmon).
+Given code as raw text, the parser converts it into a syntax tree defined by an operator precedence and a set of grammar rules. Text is parsed left to right in top down manner. The parser is built from larger parse functions built out of smaller parse functions. Specifically, the parser starts by parsing text using simple regular expression parsers. Then, parses expressions using these regex parsers. Then, parses statements using expression parsers. Lastly, parses programs using statement parsers. Operator precedence is handled by building lower precedence operator parsers that use the next highest precedence operator parser as their main parse function. This allows the parser to bind to higher precedence operators before lower precedence operators. Using [Immutable](https://immutable-js.com/), the variable checker traverses the syntax tree and maintains a set of bound variables at each level of the program. The variable checker is used to find cases of undeclared variables, duplicate parameters, valid statment use and invalid built-in function use. The parser is built using the [Parsimmon library](https://www.npmjs.com/package/parsimmon).
 
 
 ## Installation
@@ -282,10 +282,10 @@ Names,<br>
 `data = { a: 1, 2: true };`, is the same as `data = { 'a': 1, '2': true };`.<br>
 
 Numbers,<br>
-`data = { 1: 1, 2: true }`<br> 
+`data = { 1: 1, 2: true };`<br> 
 
 Strings,<br>
-`data = { ' ': 1, 'key': true }`
+`data = { ' ': 1, 'key': true };`
 
 Only named attributes can be accesed using the reference ( `x.attribute` ) operator. Any attribute can be accesed using the subscriptor ( `x[...]` ) operator. All attributes are stored as strings, `x[1]` is the same as `x['1']`.<br>
 
@@ -417,4 +417,4 @@ Example,<br>
 The loop will only run once and nothing will be printed because it breaks immediately.
 
 ## Additional language information
-https://github.com/danpaxton/scopescript-interpreter
+https://github.com/danpaxton/scopescript-interpreter/blob/main/README.md
