@@ -1,6 +1,6 @@
 {
   "name": "scopescript-parser",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A text parser for the ScopeScript language, parses text into a syntax tree represented in JSON.",
   "main": "src/parser/index.js",
   "scripts": {
