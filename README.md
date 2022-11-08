@@ -1,5 +1,5 @@
 # DEPRECATED
-See danpaxton/scopescript-interpreter
+See https://github.com/danpaxton/scopescript
 
 # ScopeScript Parser
 View on npm: https://www.npmjs.com/package/scopescript-parser<br>
